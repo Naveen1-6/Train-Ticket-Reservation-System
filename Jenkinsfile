@@ -14,14 +14,23 @@ pipeline {
             }
         }
 
+        stage('Build WAR with Maven') {
+            steps {
+                script {
+                    sh """
+                        echo "Building WAR file..."
+                        mvn clean package -DskipTests
+                    """
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
                     sh """
                         echo "Building Docker image..."
                         docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
-                        docker.build("train-ticket-reservation-system:latest", "-f docker/Dockerfile .")
-
                     """
                 }
             }
@@ -46,11 +55,10 @@ pipeline {
                 script {
                     sh """
                         echo "Running new container..."
-                        docker run -d --name ${CONTAINER_NAME} -p 8086:8080 ${IMAGE_NAME}:${IMAGE_TAG}
+                        docker run -d --name ${CONTAINER_NAME} -p 8080:8080 ${IMAGE_NAME}:${IMAGE_TAG}
                     """
                 }
             }
         }
     }
 }
-
