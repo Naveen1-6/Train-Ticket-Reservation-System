@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/your-username/Train-Ticket-Reservation-System.git'
+                git branch: 'master', url: 'https://github.com/Naveen1-6/Train-Ticket-Reservation-System.git'
             }
         }
 
@@ -44,7 +44,7 @@ pipeline {
                 script {
                     sh """
                         echo "Running new container..."
-                        docker run -d --name ${CONTAINER_NAME} -p 8086:8080 ${IMAGE_NAME}:${IMAGE_TAG}
+                        docker run -d --name ${CONTAINER_NAME} -p 8080:8080 ${IMAGE_NAME}:${IMAGE_TAG}
                     """
                 }
             }
